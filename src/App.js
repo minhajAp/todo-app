@@ -1,26 +1,19 @@
 import "./App.css"
-
-function App() {
-  const add_todo = () => {
+import React, { useState } from "react"
+function App()  {
+  const [todos, setTodos] = useState([])
+  const add_todo =  e =>  {
+    e.preventDefault()
     const todo =
       document.getElementById("todo").value
+    document.getElementById("todo").value = null
     if (todo) {
       // Save
-      const get_datas = localStorage["datas"]
-      console.log(get_datas)
-      //   todo_string=JSON.stringify(todo)
-      //  get_datas.push(todo)
-      localStorage["datas"] = [todo, get_datas]
-      alert(todo)
+     setTodos([...todos, todo])
+      
     }
     // Retrieve
   }
-
-  const stored_datas =
-    localStorage["datas"].split(",")
-  // console.log(split_string)
-  // const stored_datas = localStorage["datas"]
-  // console.log(stored_datas)
 
   return (
     <div>
@@ -30,22 +23,25 @@ function App() {
             TO DO APP
           </h1>
           <div className="container w-full h-10 mt-5 ml-4 ">
-            <input
-              className="w-11/12 p-2 rounded-md"
-              type="text"
-              id="todo"
-            />
-            <div className="w-11/12 flex justify-center">
-              <button
-                onClick={add_todo}
-                className="bg-green-500 w-7/12 font-semibold border-4 mt-2 rounded-lg"
-              >
-                Add
-              </button>
-            </div>
+            <form>
+              <input
+                className="w-11/12 p-2 rounded-md"
+                type="text"
+                id="todo"
+              />
+              <div className="w-11/12 flex justify-center">
+                <button
+                  onClick={add_todo}
+                  type="submit"
+                  className="bg-green-500 w-7/12 font-semibold border-4 mt-2 rounded-lg"
+                >
+                  Add
+                </button>
+              </div>
+            </form>
             <div className="mt-4 ml-3">
-              {stored_datas.map(user => (
-                <li key={user} >{user}</li>
+              {todos.map(user => (
+                <li key={user}>{user}</li>
               ))}
             </div>
           </div>
