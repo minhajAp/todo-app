@@ -5,6 +5,7 @@ const Form = ({
   Todos,
   setTodos,
   inputText,
+  setstatus,
 }) => {
   const inputTextHandler = e => {
     setInputText(e.target.value)
@@ -13,9 +14,16 @@ const Form = ({
     e.preventDefault()
     setTodos([
       ...Todos,
-      { text: inputText, completed: false , id:Math.random()*1000},
-    ]);
-    setInputText("");
+      {
+        text: inputText,
+        completed: false,
+        id: Math.random() * 1000,
+      },
+    ])
+    setInputText("")
+  }
+  const statusHandler = e => {
+    setstatus(e.target.value)
   }
   return (
     <form>
@@ -36,6 +44,7 @@ const Form = ({
         <select
           name="todos"
           className="filter-todo"
+          onChange={statusHandler}
         >
           <option value="all">All</option>
           <option value="completed">

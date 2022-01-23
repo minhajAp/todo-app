@@ -4,6 +4,7 @@ const Todo = ({
   Todos,
   todo,
   setTodos,
+  filteredTodos,
 }) => {
   const deleteHandler = e => {
     setTodos(
@@ -11,19 +12,27 @@ const Todo = ({
     )
   }
   const completeHandler = e => {
-      setTodos(Todos.map((item)=>{
-          if (item.id === todo.id) {
-              return {
-                ...item,
-                completed: !item.completed,
-              }
+    setTodos(
+      Todos.map(item => {
+        if (item.id === todo.id) {
+          return {
+            ...item,
+            completed: !item.completed,
           }
-          return item;
-      }))
+        }
+        return item
+      })
+    )
   }
   return (
     <div className="todo">
-      <li className={`todo-item ${todo.completed && "completed"}`}>{text}</li>
+      <li
+        className={`todo-item ${
+          todo.completed && "completed"
+        }`}
+      >
+        {text}
+      </li>
       <button
         className="complete-btn"
         onClick={completeHandler}
