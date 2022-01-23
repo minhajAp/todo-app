@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>Minhaj's Todo List</h1>
+        <h1>Your Todo List</h1>
       </header>
       <Form
         setInputText={setinputText}
