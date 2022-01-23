@@ -1,52 +1,79 @@
 import "./App.css"
-import React, { useState } from "react"
-function App()  {
-  const [todos, setTodos] = useState([])
-  const add_todo =  e =>  {
-    e.preventDefault()
-    const todo =
-      document.getElementById("todo").value
-    document.getElementById("todo").value = null
-    if (todo) {
-      // Save
-     setTodos([...todos, todo])
-      
-    }
-    // Retrieve
-  }
+import React, { useState, useEffect } from "react"
+import Form from "./components/forms.js"
+import TodoList from "./components/todolist.js"
+function App() {
+  const [inputText, setinputText] = useState("")
+  const [todos, settodos] = useState([])
+  const [status, setstatus] = useState("all")
+  const [filteredTodos, setfilteredTodos] =
+    useState([])
 
+  useEffect(() => {
+    getLocalTodos()
+  }, [])
+  useEffect(() => {
+    const filterHandler = () => {
+      switch (status) {
+        case "completed":
+          setfilteredTodos(
+            todos.filter(
+              todo => todo.completed === true
+            )
+          )
+          break
+        case "uncompleted":
+          setfilteredTodos(
+            todos.filter(
+              todo => todo.completed === false
+            )
+          )
+          break
+        default:
+          setfilteredTodos(todos)
+          break
+      }
+    }
+    filterHandler()
+    const saveLocalTodos = () => {
+      localStorage.setItem(
+        "todos",
+        JSON.stringify(todos)
+      )
+    }
+    saveLocalTodos()
+  }, [todos, status])
+
+  const getLocalTodos = () => {
+    if (localStorage.getItem("todos") === null) {
+      localStorage.setItem(
+        "todos",
+        JSON.stringify([])
+      )
+    } else {
+      let LocalTodos = JSON.parse(
+        localStorage.getItem("todos")
+      )
+      settodos(LocalTodos)
+    }
+  }
   return (
-    <div>
-      <div className="w-screen flex justify-center bg-green-500 h-screen">
-        <div className="bg-green-800 w-4/6 max-w-xs mt-10 mb-10 rounded-lg  min-h-[350px]">
-          <h1 className="text-center font-extrabold m-2 underline">
-            TO DO APP
-          </h1>
-          <div className="container w-full h-10 mt-5 ml-4 ">
-            <form>
-              <input
-                className="w-11/12 p-2 rounded-md"
-                type="text"
-                id="todo"
-              />
-              <div className="w-11/12 flex justify-center">
-                <button
-                  onClick={add_todo}
-                  type="submit"
-                  className="bg-green-500 w-7/12 font-semibold border-4 mt-2 rounded-lg"
-                >
-                  Add
-                </button>
-              </div>
-            </form>
-            <div className="mt-4 ml-3">
-              {todos.map(user => (
-                <li key={user}>{user}</li>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="App">
+      <header>
+        <h1>Minhaj's Todo List</h1>
+      </header>
+      <Form
+        setInputText={setinputText}
+        inputText={inputText}
+        Todos={todos}
+        setTodos={settodos}
+        setstatus={setstatus}
+      />
+      <TodoList
+        Todos={todos}
+        setTodos={settodos}
+        filteredTodos={filteredTodos}
+      />
     </div>
   )
 }
