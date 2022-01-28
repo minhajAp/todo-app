@@ -27,6 +27,7 @@ const Form = ({
   }
   return (
     <form>
+<div>
       <input
         type="text"
         className="todo-input"
@@ -40,6 +41,7 @@ const Form = ({
       >
         <i className="fas fa-plus-square"></i>
       </button>
+</div>
       <div className="select">
         <select
           name="todos"
